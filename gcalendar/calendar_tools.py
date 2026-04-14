@@ -1374,7 +1374,7 @@ async def manage_event(
         )
     elif action_lower == "update":
         if not event_id:
-            raise ValueError("event_id is required for update action")
+            raise ValueError("event_id is required for update action. Call get_events first and pass the ID field from the response as event_id.")
         return await _modify_event_impl(
             service=service,
             user_google_email=user_google_email,
@@ -1400,7 +1400,7 @@ async def manage_event(
         )
     elif action_lower == "delete":
         if not event_id:
-            raise ValueError("event_id is required for delete action")
+            raise ValueError("event_id is required for delete action. Call get_events first and pass the ID field from the response as event_id.")
         return await _delete_event_impl(
             service=service,
             user_google_email=user_google_email,
@@ -1409,7 +1409,7 @@ async def manage_event(
         )
     elif action_lower == "rsvp":
         if not event_id:
-            raise ValueError("event_id is required for rsvp action")
+            raise ValueError("event_id is required for rsvp action. Call get_events first and pass the ID field from the response as event_id.")
         if not response:
             raise ValueError("response is required for rsvp action")
         return await _rsvp_event_impl(
@@ -1817,7 +1817,7 @@ async def manage_out_of_office(
         )
     elif action_lower == "update":
         if not event_id:
-            raise ValueError("event_id is required for update action")
+            raise ValueError("event_id is required for update action. Call get_events first and pass the ID field from the response as event_id.")
         return await _update_ooo_event_impl(
             service=service,
             user_google_email=user_google_email,
@@ -1833,7 +1833,7 @@ async def manage_out_of_office(
         )
     elif action_lower == "delete":
         if not event_id:
-            raise ValueError("event_id is required for delete action")
+            raise ValueError("event_id is required for delete action. Call get_events first and pass the ID field from the response as event_id.")
         return await _delete_ooo_event_impl(
             service=service,
             user_google_email=user_google_email,
@@ -2279,7 +2279,7 @@ async def manage_focus_time(
         )
     elif action_lower == "update":
         if not event_id:
-            raise ValueError("event_id is required for update action")
+            raise ValueError("event_id is required for update action. Call get_events first and pass the ID field from the response as event_id.")
         return await _update_focus_time_event_impl(
             service=service,
             user_google_email=user_google_email,
@@ -2296,7 +2296,7 @@ async def manage_focus_time(
         )
     elif action_lower == "delete":
         if not event_id:
-            raise ValueError("event_id is required for delete action")
+            raise ValueError("event_id is required for delete action. Call get_events first and pass the ID field from the response as event_id.")
         return await _delete_focus_time_event_impl(
             service=service,
             user_google_email=user_google_email,
