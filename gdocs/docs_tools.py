@@ -1339,7 +1339,9 @@ async def inspect_doc_structure(
         analysis_doc["footers"] = document_tab.get("footers", {})
         analysis_doc["documentStyle"] = document_tab.get("documentStyle", {})
     elif not tab_id and doc.get("tabs"):
-        # Default to the first document tab for tab-aware header/footer inspection.
+        # Google Docs now ships all new documents as tabbed — doc["body"] is
+        # empty and the real content lives under the first tab. Fall back to
+        # that tab so inspection returns real element counts instead of zero.
         def first_document_tab(tabs):
             for candidate in tabs:
                 if "documentTab" in candidate:
@@ -1351,6 +1353,8 @@ async def inspect_doc_structure(
 
         first_tab_doc = first_document_tab(doc.get("tabs", []))
         if first_tab_doc:
+            analysis_doc["body"] = first_tab_doc.get("body", {})
+            analysis_doc["namedRanges"] = first_tab_doc.get("namedRanges", {})
             analysis_doc["headers"] = first_tab_doc.get("headers", {})
             analysis_doc["footers"] = first_tab_doc.get("footers", {})
             analysis_doc["documentStyle"] = first_tab_doc.get("documentStyle", {})

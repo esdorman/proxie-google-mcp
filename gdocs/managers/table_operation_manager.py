@@ -136,18 +136,31 @@ class TableOperationManager:
     async def _get_document_tables(
         self, document_id: str, tab_id: Optional[str] = None
     ) -> List[Dict[str, Any]]:
-        """Get fresh document structure and extract table information."""
+        """Get fresh document structure and extract table information.
+
+        Google Docs now defaults to tabbed documents; their content lives under
+        doc["tabs"][i]["documentTab"]["body"], not doc["body"]. When tab_id is
+        unspecified we fall back to the first tab so find_tables() sees the
+        real content — otherwise create_table_with_data's post-insert
+        verification returns zero tables and falsely reports failure even
+        though the insert succeeded.
+        """
         doc = await asyncio.to_thread(
             self.service.documents()
             .get(documentId=document_id, includeTabsContent=True)
             .execute
         )
 
+        tabs = doc.get("tabs", [])
+        target_tab = None
         if tab_id:
-            tab = self._find_tab(doc.get("tabs", []), tab_id)
-            if tab and "documentTab" in tab:
-                doc = doc.copy()
-                doc["body"] = tab["documentTab"].get("body", {})
+            target_tab = self._find_tab(tabs, tab_id)
+        elif tabs:
+            target_tab = tabs[0]
+
+        if target_tab and "documentTab" in target_tab:
+            doc = doc.copy()
+            doc["body"] = target_tab["documentTab"].get("body", {})
 
         return find_tables(doc)
 
