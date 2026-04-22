@@ -137,7 +137,7 @@ async def search_drive_files(
         if detailed:
             size_str = f", Size: {item.get('size', 'N/A')}" if "size" in item else ""
             formatted_files_text_parts.append(
-                f'- Name: "{item["name"]}" (ID: {item["id"]}, Type: {item["mimeType"]}{size_str}, Modified: {item.get("modifiedTime", "N/A")}) Link: {item.get("webViewLink", "#")}'
+                f'- Name: "{item["name"]}" (ID: {item["id"]}, Type: {item["mimeType"]}{size_str}, Created: {item.get("createdTime", "N/A")}, Modified: {item.get("modifiedTime", "N/A")}) Link: {item.get("webViewLink", "#")}'
             )
         else:
             formatted_files_text_parts.append(
@@ -504,7 +504,7 @@ async def list_drive_items(
         if detailed:
             size_str = f", Size: {item.get('size', 'N/A')}" if "size" in item else ""
             formatted_items_text_parts.append(
-                f'- Name: "{item["name"]}" (ID: {item["id"]}, Type: {item["mimeType"]}{size_str}, Modified: {item.get("modifiedTime", "N/A")}) Link: {item.get("webViewLink", "#")}'
+                f'- Name: "{item["name"]}" (ID: {item["id"]}, Type: {item["mimeType"]}{size_str}, Created: {item.get("createdTime", "N/A")}, Modified: {item.get("modifiedTime", "N/A")}) Link: {item.get("webViewLink", "#")}'
             )
         else:
             formatted_items_text_parts.append(
@@ -1363,7 +1363,7 @@ async def get_drive_file_permissions(
             service.files()
             .get(
                 fileId=file_id,
-                fields="id, name, mimeType, size, modifiedTime, owners, "
+                fields="id, name, mimeType, size, createdTime, modifiedTime, owners, "
                 "permissions(id, type, role, emailAddress, domain, expirationTime, permissionDetails), "
                 "webViewLink, webContentLink, shared, sharingUser, viewersCanCopyContent",
                 supportsAllDrives=True,
@@ -1377,6 +1377,7 @@ async def get_drive_file_permissions(
             f"ID: {file_id}",
             f"Type: {file_metadata.get('mimeType', 'Unknown')}",
             f"Size: {file_metadata.get('size', 'N/A')} bytes",
+            f"Created: {file_metadata.get('createdTime', 'N/A')}",
             f"Modified: {file_metadata.get('modifiedTime', 'N/A')}",
             "",
             "Sharing Status:",

@@ -102,7 +102,7 @@ async def search_docs(
     output = [f"Found {len(files)} Google Docs matching '{query}':"]
     for f in files:
         output.append(
-            f"- {f['name']} (ID: {f['id']}) Modified: {f.get('modifiedTime')} Link: {f.get('webViewLink')}"
+            f"- {f['name']} (ID: {f['id']}) Created: {f.get('createdTime')} Modified: {f.get('modifiedTime')} Link: {f.get('webViewLink')}"
         )
     return "\n".join(output)
 
@@ -324,7 +324,7 @@ async def list_docs_in_folder(
         .list(
             q=f"'{folder_id}' in parents and mimeType='application/vnd.google-apps.document' and trashed=false",
             pageSize=page_size,
-            fields="files(id, name, modifiedTime, webViewLink)",
+            fields="files(id, name, createdTime, modifiedTime, webViewLink)",
             supportsAllDrives=True,
             includeItemsFromAllDrives=True,
         )
@@ -336,7 +336,7 @@ async def list_docs_in_folder(
     out = [f"Found {len(items)} Docs in folder '{folder_id}':"]
     for f in items:
         out.append(
-            f"- {f['name']} (ID: {f['id']}) Modified: {f.get('modifiedTime')} Link: {f.get('webViewLink')}"
+            f"- {f['name']} (ID: {f['id']}) Created: {f.get('createdTime')} Modified: {f.get('modifiedTime')} Link: {f.get('webViewLink')}"
         )
     return "\n".join(out)
 

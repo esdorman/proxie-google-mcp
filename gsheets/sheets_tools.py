@@ -63,7 +63,7 @@ async def list_spreadsheets(
         .list(
             q="mimeType='application/vnd.google-apps.spreadsheet'",
             pageSize=max_results,
-            fields="files(id,name,modifiedTime,webViewLink)",
+            fields="files(id,name,createdTime,modifiedTime,webViewLink)",
             orderBy="modifiedTime desc",
             supportsAllDrives=True,
             includeItemsFromAllDrives=True,
@@ -76,7 +76,7 @@ async def list_spreadsheets(
         return f"No spreadsheets found for {user_google_email}."
 
     spreadsheets_list = [
-        f'- "{file["name"]}" (ID: {file["id"]}) | Modified: {file.get("modifiedTime", "Unknown")} | Link: {file.get("webViewLink", "No link")}'
+        f'- "{file["name"]}" (ID: {file["id"]}) | Created: {file.get("createdTime", "Unknown")} | Modified: {file.get("modifiedTime", "Unknown")} | Link: {file.get("webViewLink", "No link")}'
         for file in files
     ]
 

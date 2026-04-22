@@ -194,14 +194,14 @@ def build_drive_list_params(
         include_items_from_all_drives: Whether to include items from all drives
         corpora: Optional corpus specification
         page_token: Optional page token for pagination (from a previous nextPageToken)
-        detailed: Whether to request size, modifiedTime, and webViewLink fields.
+        detailed: Whether to request size, createdTime, modifiedTime, and webViewLink fields.
                   Defaults to True to preserve existing behavior.
 
     Returns:
         Dictionary of parameters for Drive API list calls
     """
     if detailed:
-        fields = "nextPageToken, files(id, name, mimeType, webViewLink, iconLink, modifiedTime, size)"
+        fields = "nextPageToken, files(id, name, mimeType, webViewLink, iconLink, createdTime, modifiedTime, size)"
     else:
         fields = "nextPageToken, files(id, name, mimeType)"
     list_params = {
